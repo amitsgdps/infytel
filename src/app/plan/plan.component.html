@@ -1,0 +1,68 @@
+<div class="container color-dark">
+    <div class="col">
+        <p>Add a plan</p>
+    </div>
+    <div class="col">
+        <p>Your total activated plan ({{itemCount}})</p>
+    </div>
+</div>
+
+<div class="container color-light">
+    <div class="col">
+        <br>
+        <form [formGroup]="planForm" novalidate>
+
+            <div *ngIf="planForm.controls['name'].invalid && (planForm.controls['name'].dirty || isSubmitted)"
+                class="text-danger">
+                <div *ngIf="planForm.controls['name'].errors.required">
+                    Plan Name is required.
+                </div>
+                <div *ngIf="planForm.controls['name'].errors.minlength">
+                    Name must be at least 3 characters long.
+                </div>
+                <div *ngIf="planForm.controls['name'].errors.maxlength">
+                    Name must not exceed 15 characters.
+                </div>
+            </div>
+            <input type="text" name="name" class="txt" placeholder="Add a plan name..." [(ngModel)]="planText"
+                formControlName="name">
+
+
+            <div *ngIf="planForm.controls['localRate'].invalid && (planForm.controls['localRate'].dirty || isSubmitted)"
+                class="text-danger">
+                <div *ngIf="planForm.controls['localRate'].errors.required">
+                    Local Rate is required.
+                </div>
+                <div *ngIf="planForm.controls['localRate'].hasError('pattern')">
+                    Local rate should be only numbers.
+                </div>
+            </div>
+            <input type="text" name="localRate" class="txt" placeholder="Add a local rate..." [(ngModel)]="localText"
+                formControlName="localRate">
+
+
+            <div *ngIf="planForm.controls['nationalRate'].invalid && (planForm.controls['nationalRate'].dirty || isSubmitted)"
+                class="text-danger">
+                <div *ngIf="planForm.controls['nationalRate'].errors.required">
+                    National Rate is required.
+                </div>
+                <div *ngIf="planForm.controls['nationalRate'].hasError('pattern')">
+                    National rate should be only numbers.
+                </div>
+            </div>
+
+            <input type="text" name="nationalRate" class="txt" placeholder="Add a national rate..."
+                [(ngModel)]="nationalText" formControlName="nationalRate">
+
+
+            <input type="submit" class="btn" [value]="btnText" (click)="addPlan()"
+                [disabled]="angForm.pristine || angForm.invalid" />
+        </form>
+    </div>
+    <div class="col">
+        <p class="life-container" *ngFor="let plan of plans" (click)="removePlan(plan.planId)">
+            Plan:&nbsp;{{plan.planName}}&nbsp;,&nbsp;Local Rate:&nbsp;{{plan.localRate}}&nbsp;,&nbsp;National
+            Rate:&nbsp;{{plan.nationalRate}}
+        </p>
+    </div>
+</div>
